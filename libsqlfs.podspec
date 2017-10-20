@@ -34,6 +34,12 @@ Pod::Spec.new do |s|
     ss.library = 'sqlite3'
     ss.dependency 'libsqlfs/common'
   end
+  
+  # use custom SQLCipher and enable -DHAVE_LIBSQLCIPHER flag
+  s.subspec 'SQLCipher-Custom' do |ss|
+    ss.dependency 'libsqlfs/common'
+    ss.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -DHAVE_LIBSQLCIPHER -DSQLITE_HAS_CODEC' }
+  end
 
   # use SQLCipher and enable -DHAVE_LIBSQLCIPHER flag
   s.subspec 'SQLCipher' do |ss|
