@@ -76,18 +76,10 @@ struct sqlfs_t
 #define SQLITE3_PREPARE(a, b, c, d, e) \
     stmt = get_sqlfs(sqlfs)->stmts[INDEX];\
     r = SQLITE_OK; \
-    if (stmt)\
-    {\
-        if (sqlite3_expired(stmt))\
-        {\
-            sqlite3_finalize(stmt);\
-            r = ~SQLITE_OK;\
-        }\
-    }\
-    else \
+    if (!stmt)\
         r = ~SQLITE_OK; \
     if (r != SQLITE_OK) \
-        r = sqlite3_prepare((a), (b), (c), (d), (e)); \
+        r = sqlite3_prepare_v2((a), (b), (c), (d), (e)); \
     if (r == SQLITE_OK) \
         get_sqlfs(sqlfs)->stmts[INDEX] = stmt; \
     else \
